@@ -1,7 +1,7 @@
 ### Create a random schedule with given conditions with ease
 
-Create your own data.py file for your own circumstances
-. In this file you should import methods.
+Create your own data.py file in the same folder with other .py files for your personal circumstances.
+In this file you should import methods.
 
 ```
 from methods import timeToInt
