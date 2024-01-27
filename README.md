@@ -9,7 +9,7 @@ then create a few variables
 
 ```
 START = timeToInt(hour, minute)
-END = timeToInt(hour, minut)
+END = timeToInt(hour, minute)
 
 students_conditions = {
     "name of a student": timeToInt(hour_when_he_can_start, minute_when_he_can_start),
