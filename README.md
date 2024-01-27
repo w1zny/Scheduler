@@ -1,4 +1,4 @@
-###Create a random schedule with given conditions with ease
+### Create a random schedule with given conditions with ease
 
 Create your own data.py file for your own circumstances
 . In this file you should import methods.
