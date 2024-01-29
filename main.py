@@ -1,32 +1,48 @@
+from data import *
+from methods import *
 from random import randrange
-from methods import is_finished, is_listed, print_schedule
-from data import work_days, students_conditions, students_available_lessons, full_schedule, START, END
 
-finished = is_finished(students_available_lessons)
+sorted_students = sort_dict(students_start, additional_conditions)
+finished = False
+schedule = []
 
 while not finished:
-    for name, available_lessons in students_available_lessons.items():
-        if any(available_lessons):
-            lesson_index = randrange(0, len(available_lessons))
-            lesson_len = available_lessons[lesson_index]
-            day_index = randrange(0, len(work_days))
-            day = work_days[day_index]
-            if not any(full_schedule[day]):
-                if students_conditions[name] <= START:
-                    full_schedule[day].append(
-                        {name: (students_conditions[name], students_conditions[name] + lesson_len)})
-                    students_available_lessons[name].pop(lesson_index)
-            else:
-                if not is_listed(name, day, full_schedule):
-                    previous_end_time = list(
-                        full_schedule[day][-1].values())[-1][-1]
-                    if previous_end_time + lesson_len > END:
-                        work_days.pop(day_index)
-                    else:
-                        if students_conditions[name] <= previous_end_time:
-                            full_schedule[day].append(
-                                {name: (previous_end_time, previous_end_time+lesson_len)})
-                            students_available_lessons[name].pop(lesson_index)
-        finished = is_finished(students_available_lessons)
 
-print_schedule(full_schedule)
+    for name, start_time in sorted_students.items():
+        if not any(lessons[name]):
+            continue
+
+        lesson_index = randrange(len(lessons[name]))
+        lesson_len = lessons[name][lesson_index]
+
+        start_event = None
+        if not any(schedule):
+            if start_time <= START:
+                start_event = START
+        else:
+            last_event_end = get_last_event(schedule)[1]
+            if start_time <= last_event_end:
+                start_event = last_event_end
+
+        if not start_event:
+            continue
+
+        end_event = start_event + lesson_len
+        if end_event > END:
+            finished = True
+            break
+
+        if name not in additional_conditions:
+            schedule.append({name: (start_event, end_event)})
+            lessons[name].pop(lesson_index)
+            continue
+
+        if conditions_met(start_event, end_event, additional_conditions[name]):
+            schedule.append({name: (start_event, end_event)})
+            lessons[name].pop(lesson_index)
+
+    START += 10
+
+print(day)
+print_schedule(schedule)
+
