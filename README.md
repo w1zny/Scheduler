@@ -10,8 +10,8 @@ from methods import time_to_int
 then create a few variables
 
 ```
-START = timeToInt(hour, minute)
-END = timeToInt(hour, minute)
+START = time_to_int(hour, minute)
+END = time_to_int(hour, minute)
 day = "day for schedule creation"
 
 students_start = {
